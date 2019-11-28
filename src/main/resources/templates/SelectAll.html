@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询全部商品</title>
+    <link rel="stylesheet" href="./layui/css/layui.css" media="all">
+    <script src="./layui/layui.all.js"></script>
+    <script src="./js/jquery-3.1.1.js"></script>
+    <script src="./layui/layui.js"></script>
+</head>
+<style>
+    #kuang{
+        width: 600px;
+        height: 500px;
+        border: 1px solid gray;
+        position: absolute;
+        top: 100px;
+        left: 250px;
+        background: white;
+        z-index: 99;
+        display: none;
+    }
+    #guanbi{
+        font-size: 30px;
+        position: absolute;
+        top: 10px;
+        left: 570px;
+        color:gray;
+        cursor:pointer;
+        font-weight: 200;
+    }
+    #lei{
+        height: 40px;
+
+    }
+    #nuo{
+        position: absolute;
+        top: 180px;
+        left:120px;
+    }
+    #xiu{
+        width: 600px;
+        height: 500px;
+        border: 1px solid gray;
+        position: absolute;
+        top: 100px;
+        left: 250px;
+        background: white;
+        z-index: 99;
+display: none;
+    }
+    #guanbi2{
+        font-size: 30px;
+        position: absolute;
+        top: 10px;
+        left: 570px;
+        color:gray;
+        cursor:pointer;
+        font-weight: 200;
+    }
+    #lei2{
+        height: 40px;
+
+    }
+    #nuo2{
+        position: absolute;
+        top: 180px;
+        left:120px;
+    }
+    #zhezhao{
+        background: gray;
+        z-index: 99;
+        position: absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        opacity:0.7;
+        display: none;
+    }
+</style>
+<body>
+<!--遮罩层-->
+<div id="zhezhao"></div>    <!--遮罩层-->
+<!--//添加按钮-->
+<div style="margin-top: 20px">
+    <button type="button" class="layui-btn layui-btn-fluid" id="tianjia">
+    <i class="layui-icon" >&#xe608;</i> 添加商品
+</button>
+</div>
+<!--//遍历查询-->
+<table id="demo" lay-filter="test"></table>
+
+<!--添加框-->
+<div id="kuang">
+    <span id="guanbi">X</span>
+    <form class="layui-form"  style="margin-left: 120px;margin-top: 80px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="productname" required  lay-verify="required" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品价格</label>
+            <div class="layui-input-inline">
+                <input type="text" id="productprice" required  lay-verify="required" placeholder="请输入商品价格" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div id="lei">
+
+        </div>
+        <!--min/max - 最小/大范围内的日期时间值-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">生产日期</label>
+            <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                <input type="text" id="producttime" required class="layui-input"  lay-verify="required" placeholder="请选择生产日期">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">购买日期</label>
+            <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                <input type="text"  required class="layui-input" id="buytime" lay-verify="required" placeholder="请选择购买日期">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo"  id="submit">添加</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+
+            </div>
+        </div>
+    </form>
+    <div class="layui-form-item" id="nuo">
+        <label class="layui-form-label">商品类型</label>
+        <div class="layui-input-inline">
+            <select name="leiixng"  id="xuanze" style="width: 190px;height: 37px;">
+
+
+            </select>
+        </div>
+    </div>
+</div>
+<!--修改框-->
+
+<div id="xiu">
+    <span id="guanbi2">X</span>
+    <form class="layui-form"  style="margin-left: 120px;margin-top: 80px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="productname2" required  lay-verify="required" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品价格</label>
+            <div class="layui-input-inline">
+                <input type="text" id="productprice2" required  lay-verify="required" placeholder="请输入商品价格" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div id="lei2">
+
+        </div>
+        <!--min/max - 最小/大范围内的日期时间值-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">生产日期</label>
+            <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                <input type="text" id="producttime2" required class="layui-input"  lay-verify="required" placeholder="请选择生产日期">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">购买日期</label>
+            <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                <input type="text"  required class="layui-input" id="buytime2" lay-verify="required" placeholder="请选择购买日期">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo"  id="xiugai">修改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+
+            </div>
+        </div>
+    </form>
+    <div class="layui-form-item" id="nuo2">
+        <label class="layui-form-label">商品类型</label>
+        <div class="layui-input-inline">
+            <select name="leiixng"  id="xuanze2" style="width: 190px;height: 37px;">
+
+
+            </select>
+        </div>
+    </div>
+    <div style="display: none">
+        <input id="productid2">
+    </div>
+</div>
+</body>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,height: 274
+            ,url: '/spring/cha/zhu' //数据接口
+            // ,page: true //开启分页
+
+            ,cols: [[ //表头
+                {field: 'productid', title: '商品编号' ,width:213,align:'center'}
+                ,{field: 'productname', title: '商品名称' ,width:213,align:'center'}
+                ,{field: 'productprice', title: '商品价格', width:213,align:'center'}
+                ,{field: 'catagoryname', title: '商品类型', width:213,align:'center'}
+                ,{field: 'producttime', title: '出生日期', width:213, sort: true,align:'center'}
+                ,{field: 'buytime', title: '购买日期', width:213, sort: true,align:'center'}
+
+                ,{
+                    width: 195,
+                    align:'center',
+                    title: "操作",
+                    toolbar: "#barDemo"
+                }
+
+
+            ]],
+            //隐藏商品id
+            done: function () {
+                $("[data-field='productid']").css('display','none');
+            }
+            ,page: {
+                limit:5,
+                limits:[5,10,15,20]
+            }
+        });
+table.on('tool(test)',function (obj) {
+    var event=obj.event;
+    var data=obj.data;
+    var productid=data.productid;
+    if(event=='shanchu'){
+        //弹出框
+        layer.confirm('你确定要删除此商品吗？', {
+             btn: ['确定', '取消']
+            ,title:'温馨提示'//按钮
+        }, function () {
+            $.post('/spring/cha/delete',{productid:productid},function (res) {
+                window.location.href="/spring/SelectAll.html";
+            })
+        layer.msg('删除成功', { icon: 1 });
+        }, function () {
+
+       });
+
+
+    }else if(event=='xiugai'){
+        $("#zhezhao").css('display','block');
+        $("#xiu").css('display','block')
+        $.ajax({
+            url:"/spring/cha/selectName",
+            type:'post',
+
+            dataType:'json',
+            success:function(date){
+
+                var item;
+                $.each(date,function(i,result){
+                    item="<option>"+result['name']+"</option>";
+                    $("#xuanze2").append(item);
+
+
+                })
+            }
+        })
+        var productname=data.productname;
+        var productprice=data.productprice;
+        var producttime=data.producttime;
+        var buytime=data.buytime;
+        var productid=data.productid;
+        $("#productname2").val(productname);
+        $("#productprice2").val(productprice);
+        $("#producttime2").val(producttime);
+        $("#buytime2").val(buytime);
+        $("#productid2").val(productid);
+    }
+})
+    });
+
+</script>
+<script type="test/html" id="barDemo">
+    <a class="layui-btn layui-btn-sm layui-btn-danger " lay-event="shanchu">删除</a>
+    <a class="layui-btn layui-btn-sm  " lay-event="xiugai">修改</a>
+</script>
+
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //日期时间有效范围的设定:
+        laydate.render({
+            elem: '#producttime' // 绑定元素的id
+            ,type: 'datetime' // 设置格式：日期时间
+            ,min: '1999-7-28 12:30:00' // 设置日期时间的最小值
+            ,max: '2099-8-28 12:30:00' // 设置日期时间的最大值
+            ,theme: '#008080' // 自定义主题颜色
+            ,calendar: true // 显示公历节假日
+        });
+
+    });
+</script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //日期时间有效范围的设定:
+        laydate.render({
+            elem: '#buytime' // 绑定元素的id
+            ,type: 'datetime' // 设置格式：日期时间
+            ,min: '1999-7-28 12:30:00' // 设置日期时间的最小值
+            ,max: '2099-8-28 12:30:00' // 设置日期时间的最大值
+            ,theme: '#008080' // 自定义主题颜色
+            ,calendar: true // 显示公历节假日
+        });
+
+    });
+</script>
+<script>
+    $("#guanbi2").click(function(){
+        window.location.href="/spring/SelectAll.html";
+    });
+    $("#guanbi").click(function(){
+        window.location.href="/spring/SelectAll.html";
+    });
+    $("#tianjia").click(function(){
+        $("#zhezhao").css('display','block')
+        $("#kuang").css('display','block')
+
+        $.ajax({
+            url:"/spring/cha/selectName",
+            type:'post',
+
+            dataType:'json',
+            success:function(date){
+
+                var item;
+                $.each(date,function(i,result){
+                   item="<option>"+result['name']+"</option>";
+                    $("#xuanze").append(item);
+
+
+                })
+            }
+        })
+    })
+</script>
+<script>
+    $("#submit").click(function () {
+
+       var productname=$("#productname").val();
+        var productprice=$("#productprice").val();
+        var producttime2=$("#producttime").val();
+        var buytime2=$("#buytime").val();
+        var catagoryname=$("#xuanze").val();
+        var producttime=new Date(producttime2)
+        var buytime=new Date(buytime2)
+
+        if(productname!=0&&productprice!=0&&producttime2!=0&&buytime2!=0&&catagoryname!=0){
+               $.ajax({
+                   url:"/spring/cha/selectId",
+                   type:'post',
+                   data:{
+                       productname:productname,
+                       productprice:productprice,
+                       producttime:producttime,
+                       buytime:buytime,
+                       catagoryname:catagoryname
+                   },
+                   dataType:'json',
+                   success:function(date) {
+                     var catagoryid=date
+                       $.ajax({
+                           url:"/spring/cha/add",
+                           type:'post',
+                           data:{
+                               productname:productname,
+                               productprice:productprice,
+                               producttime:producttime,
+                               buytime:buytime,
+                               catagoryname:catagoryname,
+                               catagoryid:catagoryid
+                           },
+                           dataType:'json',
+                           success:function(date) {
+                               window.location.href="/spring/SelectAll.html";
+
+                           }
+                       })
+                   }
+               })
+        }
+    })
+</script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //日期时间有效范围的设定:
+        laydate.render({
+            elem: '#producttime2' // 绑定元素的id
+            ,type: 'datetime' // 设置格式：日期时间
+            ,min: '1999-7-28 12:30:00' // 设置日期时间的最小值
+            ,max: '2099-8-28 12:30:00' // 设置日期时间的最大值
+            ,theme: '#008080' // 自定义主题颜色
+            ,calendar: true // 显示公历节假日
+        });
+
+    });
+</script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //日期时间有效范围的设定:
+        laydate.render({
+            elem: '#buytime2' // 绑定元素的id
+            ,type: 'datetime' // 设置格式：日期时间
+            ,min: '1999-7-28 12:30:00' // 设置日期时间的最小值
+            ,max: '2099-8-28 12:30:00' // 设置日期时间的最大值
+            ,theme: '#008080' // 自定义主题颜色
+            ,calendar: true // 显示公历节假日
+        });
+
+    });
+</script>
+<script>
+    $("#xiugai").click(function () {
+        var productname=$("#productname2").val();
+        var productprice=$("#productprice2").val();
+        var producttime2=$("#producttime2").val();
+        var buytime2=$("#buytime2").val();
+        var catagoryname=$("#xuanze2").val();
+        var producttime=new Date(producttime2);
+        var buytime=new Date(buytime2);
+      var productid=$("#productid2").val();
+        if(productname!=0&&productprice!=0&&producttime2!=0&&buytime2!=0&&catagoryname!=0) {
+            $.ajax({
+                url:"/spring/cha/selectId",
+                type:'post',
+                data:{
+                    catagoryname:catagoryname
+                },
+                dataType:'json',
+                success:function(date) {
+                    var catagoryid=date
+                    $.ajax({
+                        url:"/spring/cha/update",
+                        type:'post',
+                        data:{
+                            productname:productname,
+                            productprice:productprice,
+                            producttime:producttime,
+                            buytime:buytime,
+                            catagoryname:catagoryname,
+                            catagoryid:catagoryid,
+                            productid:productid
+                        },
+                        dataType:'json',
+                        success:function(date) {
+                            window.location.href="/spring/SelectAll.html";
+
+                        }
+                    })
+                }
+            })
+        }
+    })
+</script>
+</html>

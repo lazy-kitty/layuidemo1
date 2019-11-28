@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.layuidemo1.mapper.productMapper">
+
+<select id="selectAll" resultType="com.aaa.layuidemo1.entity.product">
+    select c.catagoryname,p.* from catagory c,product p where c.catagoryid=p.catagoryid limit #{page},#{limit}
+</select>
+<select id="select1" resultType="int" parameterType="map">
+    select count(productid) from product
+</select>
+    <delete id="delete" parameterType="Integer">
+        delete from product where productid=#{productid}
+    </delete>
+    <select id="select2" resultType="com.aaa.layuidemo1.entity.catagory">
+        select *from catagory
+    </select>
+    <select id="selectId" parameterType="String" resultType="int">
+        select catagoryid from catagory where catagoryname=#{catagoryname}
+    </select>
+    <insert id="add" parameterType="com.aaa.layuidemo1.entity.product">
+        insert into product(productname,productprice,producttime,buytime,catagoryid)values(#{productname},#{productprice},#{producttime},#{buytime},#{catagoryid})
+    </insert>
+    <update id="update" parameterType="com.aaa.layuidemo1.entity.product">
+        update product set productname=#{productname},productprice=#{productprice},producttime=#{producttime},buytime=#{buytime},catagoryid=#{catagoryid} where productid=#{productid}
+    </update>
+</mapper>
